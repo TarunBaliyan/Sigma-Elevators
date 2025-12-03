@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Southwest Clone Elevators | New Elevator Construction</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        :root {
+            --accent: #0f7bff;
+            --accent-2: #7b61ff;
+            --muted: #94a3b8;
+            --text: #e6eef8;
+            --card: rgba(255, 255, 255, 0.06);
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(180deg, #071426 0%, #071226 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 24px;
+        }
+
+        .logo .mark {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(123, 97, 255, 0.3);
+        }
+
+        nav.navbar {
+            display: flex;
+            gap: 12px;
+        }
+
+        nav.navbar a {
+            color: rgba(230, 238, 248, 0.9);
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        nav.navbar a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 60px 0 100px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .hero-card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(127, 90, 255, 0.15), transparent 60%);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 38px;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, white, #bfd7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .lead {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            color: white;
+            box-shadow: 0 8px 25px rgba(15, 123, 255, 0.3);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(15, 123, 255, 0.4);
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #dbeafe;
+        }
+
+        .btn.ghost:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+        }
+
+        .stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 16px 20px;
+            border-radius: 12px;
+            min-width: 110px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat h3 {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Elevator Diagram */
+        .elevator-diagram {
+            margin-top: 32px;
+            background: rgba(11, 27, 43, 0.6);
+            padding: 24px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .shaft {
+            width: 100px;
+            height: 240px;
+            background: linear-gradient(180deg, #0b2638, #071226);
+            border-radius: 12px;
+            position: relative;
+            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
+        }
+
+        .cab {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 50px;
+            background: linear-gradient(180deg, #e6f2ff, #cfe8ff);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            color: #062031;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+
+        .shaft:hover .cab {
+            transform: translateX(-50%) translateY(-80px);
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+
+        .contact-card h4 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .contact-card .small {
+            color: var(--muted);
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: var(--muted);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin: 80px 0;
+        }
+
+        @media (min-width:768px) {
+            .features {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* Graphic Sections */
+        .graphic-section {
+            margin: 100px 0;
+            padding: 60px 40px;
+            background: rgba(11, 27, 43, 0.4);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+        }
+
+        .section-heading {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .graphic-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media(min-width:768px) {
+            .graphic-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .graphic-box {
+
+            background: linear-gradient(135deg, rgba(15, 123, 255, 0.15), rgba(123, 97, 255, 0.1));
+            border: 1px solid var(--accent);
+            padding: 32px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .graphic-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(15, 123, 255, 0.3);
+        }
+
+        .graphic-box h3 {
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        /* Pricing */
+        .pricing-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        @media(min-width:768px) {
+            .pricing-wrapper {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(15, 123, 255, 0.15), rgba(123, 97, 255, 0.1));
+            border: 1px solid var(--accent);
+            padding: 32px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(15, 123, 255, 0.3);
+        }
+
+        .pricing-card .price {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin: 16px 0;
+        }
+
+        /* Experience Stats */
+        .experience-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .stat-block {
+            background: var(--card);
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            min-width: 180px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-block h3 {
+            font-size: 42px;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        /* Registration Card */
+        .registration-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            color: white;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .registration-card p {
+            margin-bottom: 12px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .registration-card strong {
+            color: #bfd7ff;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            margin-top: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 980px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-card {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            nav.navbar {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #0b1b2b;
+                flex-direction: column;
+                width: 200px;
+                border-radius: 12px;
+                padding: 16px;
+                box-shadow: var(--shadow);
+                border: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            nav.navbar.open {
+                display: flex;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .section-heading {
+                font-size: 30px;
+            }
+
+            .graphic-section {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cta-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stats,
+            .experience-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="mark">SE</div>
+                <div> Sigma <span style="color:var(--accent)">Elevators</span></div>
+            </div>
+            <nav class="navbar" id="navbar">
+                <a href="#registration">About</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Cost</a>
+                <a href="#experience">Experience</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="mobile-toggle" onclick="document.getElementById('navbar').classList.toggle('open')">☰</div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-grid">
+                <div class="hero-card fade-in">
+                    <h1>New Elevator Construction</h1>
+                    <p class="lead">Full-service elevator design & construction for commercial and residential
+                        properties — modern controls, energy-efficient systems, and fully code-compliant installations.
+                    </p>
+
+                    <div class="cta-row">
+                        <button class="btn primary">Get a Quote</button>
+                        <button class="btn ghost" id="learnMoreBtn">Learn More</button>
+                    </div>
+
+                    <!-- Hidden extra content -->
+                    <div id="extraContent" style="display:none; margin-top:20px; color: var(--muted);">
+                        <p>Our team provides end-to-end project management, including design, supply, installation,
+                            testing, and handover. We ensure all elevators comply with safety standards and energy
+                            efficiency requirements.</p>
+                        <p>We also offer maintenance services, modernization of old elevators, and 24/7 support to
+                            guarantee smooth operations.</p>
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>150+</h3>
+                            <p>Projects</p>
+                        </div>
+                        <div class="stat">
+                            <h3>25+ yrs</h3>
+                            <p>Experience</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24/7</h3>
+                            <p>Support</p>
+                        </div>
+                    </div>
+
+                    <div class="elevator-diagram">
+                        <div class="shaft">
+                            <div class="cab">CAB</div>
+                        </div>
+                        <div>
+                            <h3>Design-Led Engineering</h3>
+                            <p class="small">We optimize hoistway layouts and select premium equipment for superior ride
+                                quality and energy efficiency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+    </section>
+
+    <!-- Features Section -->
+    <!-- Features / Services Section -->
+    <section id="services" class="graphic-section">
+        <h2 class="section-heading">Our Services</h2>
+
+        <div class="graphic-grid">
+            <!-- Service 1 -->
+            <div class="graphic-box">
+                <img src="https://www.shutterstock.com/shutterstock/photos/2010435098/display_1500/stock-photo-image-of-high-modern-office-building-with-elevators-2010435098.jpg"
+                    alt="Modern Elevator" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Modern Elevators</h3>
+                <p>State-of-the-art elevator design with latest technology and safety features.</p>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="graphic-box">
+                <img src="https://allsfl.com/wp-content/uploads/2022/03/Design-sem-nome-43-1024x688.jpg"
+                    alt="Elevator Maintenance" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Maintenance & Repair</h3>
+                <p>Comprehensive preventive maintenance and emergency repair services.</p>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="graphic-box">
+                <img src="https://www.flat-living.co.uk/wp-content/uploads/2023/05/AdobeStock_504493430-scaled.jpeg"
+                    alt="Elevator Consultation" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Consultation</h3>
+                <p>Expert guidance from initial design to final implementation for your project.</p>
+            </div>
+
+            <!-- ⭐ NEW SERVICE: CC Camera Installation -->
+            <div class="graphic-box">
+                <img src="https://hafeezcenterlhr.com/wp-content/uploads/2023/06/worker-install-camera-outdoors-cctv-installation-wizard-concept-1-scaled.jpg"
+                    alt="CC Camera Installation" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Installation of CC Camera</h3>
+                <p>Professional installation of CCTV systems with complete wiring, monitoring setup, and maintenance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="graphic-section">
+        <h2 class="section-heading">Estimated Costs</h2>
+        <div class="pricing-wrapper">
+            <div class="pricing-card">
+                <img src="https://tse1.mm.bing.net/th/id/OIP.hVaRNCByj5qYxJME9O2qJAHaH5?rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="Basic Elevator" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Basic Elevator</h3>
+                <p>Single cab, up to 5 floors</p>
+                <p class="price">₹3,50,000+</p>
+            </div>
+            <div class="pricing-card">
+                <img src="https://i.pinimg.com/736x/fe/32/ec/fe32ec6bf1ad02b7315efb3b0bafd22a.jpg"
+                    alt="Standard Elevator" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Standard Elevator</h3>
+                <p>Up to 10 floors, with modern features</p>
+                <p class="price">₹6,50,000+</p>
+            </div>
+            <div class="pricing-card">
+                <img src="https://tse1.mm.bing.net/th/id/OIP.itS7zGaKbL3vle402PGvtAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="Premium Elevator" style="width:100%; border-radius:12px; margin-bottom:16px;">
+                <h3>Premium Elevator</h3>
+                <p>Custom design, luxury interiors, high speed</p>
+                <p class="price">₹12,00,000+</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Experience Stats -->
+    <section id="experience" class="graphic-section">
+        <h2 class="section-heading">Our Experience</h2>
+        <div class="experience-stats">
+            <div class="stat-block">
+                <h3>25+</h3>
+                <p>Years in Business</p>
+            </div>
+            <div class="stat-block">
+                <h3>150+</h3>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat-block">
+                <h3>100%</h3>
+                <p>Client Satisfaction</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GST Registration Section -->
+    <section id="registration" class="graphic-section">
+        <h2 class="section-heading">GST Registration Details</h2>
+        <div class="registration-card">
+            <p><strong>Registration Number:</strong> 07EHBPS4104M1Z6</p>
+            <p><strong>Legal Name:</strong> Rahul Kumar</p>
+            <p><strong>Trade Name:</strong> M/s Sigma Elevators Co.</p>
+            <p><strong>Constitution of Business:</strong> Proprietorship</p>
+            <p><strong>Principal Place of Business:</strong><br>
+                Floor No.: Third Floor, Building No./Flat No.: 374<br>
+                Road/Street: Chirag Delhi Main Road<br>
+                Locality/Sub Locality: Chirag Delhi<br>
+                City/Town/Village: New Delhi, District: South Delhi<br>
+                State: Delhi, PIN Code: 110017
+            </p>
+            <p><strong>Date of Liability:</strong> N/A</p>
+            <p><strong>Period of Validity:</strong> From 11/07/2025 To Not Applicable</p>
+            <p><strong>Type of Registration:</strong> Regular</p>
+            <p><strong>Approving Officer:</strong> Amrendra Kumar Ojha, Superintendent, MALVIYA NAGAR</p>
+            <p><strong>Date of Issue:</strong> 11/07/2025</p>
+            <p><em>Note: The registration certificate is required to be prominently displayed at all places of business
+                    in the State.</em></p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="graphic-section">
+        <h2 class="section-heading">Contact Us</h2>
+        <div class="contact-card" style="text-align:center;">
+            <h4>Get in Touch</h4>
+            <p class="small">Reach us directly via email or phone.</p>
+            <p style="margin:12px 0; font-size:16px;"><strong>Email:</strong> <a
+                    href="mailto:Bhardwajrahul915@gmail.com"
+                    style="color:var(--accent); text-decoration:none;">Bhardwajrahul915@gmail.com</a></p>
+            <p style="margin:12px 0; font-size:16px;"><strong>Phone:</strong> <a href="tel:+919971295252"
+                    style="color:var(--accent); text-decoration:none;">+91 9971295252</a></p>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div>&copy; 2025 Sigma Elevators Co. All Rights Reserved.</div>
+        <div>Designed by You</div>
+    </footer>
+    </div>
+
+    <script>
+        // Smooth mobile navbar toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', () => {
+            document.getElementById('navbar').classList.toggle('open');
+        });
+    </script>
+    <script>
+        const learnBtn = document.getElementById('learnMoreBtn');
+        const extraContent = document.getElementById('extraContent');
+
+        learnBtn.addEventListener('click', () => {
+            if (extraContent.style.display === 'none') {
+                extraContent.style.display = 'block';
+                learnBtn.textContent = 'Show Less';
+            } else {
+                extraContent.style.display = 'none';
+                learnBtn.textContent = 'Learn More';
+            }
+        });
+    </script>
+</body>
+
+</html>
